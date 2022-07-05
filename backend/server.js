@@ -1,6 +1,14 @@
+//importation
 const http = require('http');
 const app = require('./app');
+const dotenv = require('dotenv'); //variable d'environnement
 
+const result = dotenv.config();
+if (result.error) {
+  throw result.error;
+}
+//normalizePort
+//fonction pour normaliser le port
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
 
@@ -12,9 +20,12 @@ const normalizePort = (val) => {
   }
   return false;
 };
+
+//set le port
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
+//errorHandler
 const errorHandler = (error) => {
   if (error.syscall !== 'listen') {
     throw error;
@@ -36,7 +47,8 @@ const errorHandler = (error) => {
   }
 };
 
-const server = http.createServer(app);
+//l'instance du serveur
+const server = http.createServer(app); //retourne une nouvelle instance de http
 
 server.on('error', errorHandler);
 server.on('listening', () => {

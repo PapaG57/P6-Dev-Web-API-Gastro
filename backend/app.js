@@ -1,18 +1,23 @@
+//importation des paquets
 const express = require('express');
 const bodyParser = require('body-parser');
-const signupRoutes = require('./routes/user');
 const mongoose = require('mongoose');
+const path = require('path');
+const saucesRoutes = require('./routes/sauces');
+const userRoutes = require('./routes/user');
 
 mongoose
   .connect(
-    'mongodb+srv://Papa_G:gf7rHACoeo3IpvEB@project6.9ba31x9.mongodb.net/?retryWrites=true&w=majority',
+    'mongodb+srv://Papa_G:gf7rHACoeo3IpvEB@cluster0.pdemg.mongodb.net/?retryWrites=true&w=majority',
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
+//déclaration des variables
 const app = express();
 
+//pour les problèmes de CORS Cross-Origin Request Sharing
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
@@ -26,8 +31,17 @@ app.use((req, res, next) => {
   next();
 });
 
+//transformer le body en json objet javascript utilisable
 app.use(bodyParser.json());
 
-app.use('/api/user', signupRoutes);
+//les sauces
+app.use('/api/sauces', saucesRoutes);
 
+//l'authentification
+app.use('/api/auth', userRoutes);
+
+//pour l'accés aux images
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
+//Exporter la constante app (application express) pour pouvoir l'utiliser depuis d'autre fichier (pour le serveur node)
 module.exports = app;
