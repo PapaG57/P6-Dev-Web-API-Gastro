@@ -43,5 +43,5 @@ app.use('/api/auth', userRoutes);
 //pour l'accés aux images
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-//Exporter la constante app (application express) pour pouvoir l'utiliser depuis d'autre fichier (pour le serveur node)
+//Exporter la constante app (application express)
 module.exports = app;
