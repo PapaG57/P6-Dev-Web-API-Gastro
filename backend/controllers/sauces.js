@@ -5,7 +5,8 @@ const request = require('http');
 
 //création d'une sauce
 exports.createSauces = (req, res, next) => {
-  const saucesObject = JSON.parse(req.body.thing);
+  console.log(req.body);
+  const saucesObject = JSON.parse(req.body.sauce);
   delete saucesObject._id;
   delete saucesObject._userId;
   const sauces = new Sauces({
@@ -30,7 +31,7 @@ exports.createSauces = (req, res, next) => {
 exports.modifySauces = (req, res, next) => {
   const saucesObject = req.file
     ? {
-        ...JSON.parse(req.body.sauces),
+        ...JSON.parse(req.body.sauce),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${
           req.file.filename
         }`,

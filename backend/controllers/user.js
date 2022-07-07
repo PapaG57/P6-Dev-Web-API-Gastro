@@ -1,7 +1,7 @@
 //importations
 const bcrypt = require('bcrypt'); //hash du mot de passe
 const jwt = require('jsonwebtoken'); //token d'authentification
-const user = require('../models/User'); //modèle de la base de donnée
+const User = require('../models/user'); //modèle de la base de donnée
 const cryptojs = require('crypto-js'); //chiffrement de l'email
 
 //importation pour utilisation des variables d'environnements

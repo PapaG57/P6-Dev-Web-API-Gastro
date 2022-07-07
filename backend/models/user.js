@@ -7,7 +7,6 @@ const userSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 });
-console.log(email, password);
 
 //shéma pour n'enregistrer q'une adresse mail unique dans la base de donnée
 userSchema.plugin(uniqueValidator); // on applique la méthode plugin pour controler le mail
