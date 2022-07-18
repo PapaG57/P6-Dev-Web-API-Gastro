@@ -5,7 +5,6 @@ const request = require('http');
 
 //création d'une sauce
 exports.createSauces = (req, res, next) => {
-  console.log(req.body);
   const saucesObject = JSON.parse(req.body.sauce);
   delete saucesObject._id;
   delete saucesObject._userId;
