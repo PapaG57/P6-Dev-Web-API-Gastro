@@ -16,6 +16,7 @@ mongoose
 
 //déclaration des variables
 const app = express();
+app.enable('trust proxy');
 
 //pour les problèmes de CORS Cross-Origin Request Sharing
 app.use((req, res, next) => {
