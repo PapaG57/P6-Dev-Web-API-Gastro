@@ -16,6 +16,9 @@ exports.createSauces = (req, res, next) => {
     }`,
   });
 
+  // Log pour débogage production
+  console.log('Nouvelle sauce créée. Image URL:', sauces.imageUrl);
+
   sauces
     .save()
     .then(() => {
@@ -81,13 +84,32 @@ exports.deleteSauces = (req, res, next) => {
 // pour obtenir une sauce en particulier avec son id
 exports.getOneSauces = (req, res, next) => {
   Sauces.findOne({ _id: req.params.id })
-    .then((sauces) => res.status(200).json(sauces))
+    .then((sauce) => {
+      if (sauce.imageUrl && sauce.imageUrl.includes('localhost')) {
+        const host = req.get('host');
+        const protocol = req.protocol;
+        const filename = sauce.imageUrl.split('/images/')[1];
+        sauce.imageUrl = `${protocol}://${host}/images/${filename}`;
+      }
+      res.status(200).json(sauce);
+    })
     .catch((error) => res.status(404).json({ error }));
 };
 
 //pour obtenir la liste complète avec la méthode find()
 exports.getAllSauces = (req, res, next) => {
   Sauces.find()
-    .then((sauces) => res.status(200).json(sauces))
+    .then((sauces) => {
+      // Correctif dynamique pour les images (ex: passage de localhost à Render)
+      const host = req.get('host');
+      const protocol = req.protocol;
+      sauces.forEach((sauce) => {
+        if (sauce.imageUrl && sauce.imageUrl.includes('localhost')) {
+          const filename = sauce.imageUrl.split('/images/')[1];
+          sauce.imageUrl = `${protocol}://${host}/images/${filename}`;
+        }
+      });
+      res.status(200).json(sauces);
+    })
     .catch((error) => res.status(404).json({ error }));
 };

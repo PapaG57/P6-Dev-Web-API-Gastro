@@ -1,6 +1,5 @@
 //importation des paquets
 const express = require('express');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 const saucesRoutes = require('./routes/sauces');
@@ -33,7 +32,7 @@ app.use((req, res, next) => {
 });
 
 //transformer le body en json objet javascript utilisable
-app.use(bodyParser.json());
+app.use(express.json());
 
 //les sauces
 app.use('/api/sauces', saucesRoutes);
